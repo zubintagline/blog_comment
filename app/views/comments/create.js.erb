@@ -1,0 +1,5 @@
+<% if @parent.nil? %>
+$('.blogs').append("<%= j render(:partial => 'comments/comment', :locals => {:user => @current_user, :comment => @comment, :blog_post => @comment.blog_post }) %>");
+<% else %>
+$('.comment-<%= @comment.parent.id %>').html("<%= j render(:partial => 'comments/comment', :locals => {:user => @current_user, :comment => @comment.parent, :blog_post => @comment.blog_post }) %>");
+<% end %>

@@ -1,0 +1,42 @@
+<div class='comment-<%= comment.id %>'>
+  <p class="comment-user-title"><%= comment.content %>, <span style="font-size: 10px;">By <%= comment.user.email %></span></p>
+  
+  <div style="font-size: 10px;margin-left: 15px;" class="comment-reply-<%= comment.id %>">
+    <% comment.reply_comments.each do |reply_comment| %>
+      <p ><%= reply_comment.content %>, <span style="font-size: 10px;">By <%= reply_comment.user.email %></span></p>
+      <div style="font-size: 10px;margin-left: 15px;" class="inner-reply">
+        <% reply_comment.reply_comments.each do |reply_comment_| %>
+          <p ><%= reply_comment_.content %>, <span style="font-size: 10px;">By <%= reply_comment_.user.email %></span></p>
+        <% end %>
+        <form action="/comments" method="post" data-remote="true">
+          <div class="row">
+              <div class="form-group col-md-10">
+                <input type="hidden" name="comment[user_id]" value=<%= current_user.id %>>
+                <input type="hidden" name="comment[blog_post_id]" value=<%= blog_post.id %>>
+                <input type="hidden" name="comment[parent_id]" value=<%= reply_comment.id %>>
+                <input class="form-control" type="text" name="comment[content]" placeholder="write reply comment...">
+              </div>
+              <div class="col-md-2">
+                <input type="submit" class="btn btn-success">
+              </div>
+          </div>
+        </form>
+      </div>
+
+    <% end %>
+    <br/>
+    <form action="/comments" method="post" data-remote="true">
+      <div class="row">
+          <div class="form-group col-md-10">
+            <input type="hidden" name="comment[user_id]" value=<%= current_user.id %>>
+            <input type="hidden" name="comment[blog_post_id]" value=<%= blog_post.id %>>
+            <input type="hidden" name="comment[parent_id]" value=<%= comment.id %>>
+            <input class="form-control" type="text" name="comment[content]" placeholder="write reply comment...">
+          </div>
+          <div class="col-md-2">
+            <input type="submit" class="btn btn-success">
+          </div>
+      </div>
+    </form>
+  </div>
+</div>

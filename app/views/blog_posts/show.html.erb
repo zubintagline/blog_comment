@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+<div class="card blog-content">
+  <div class="card-body">
+    <p>
+      <strong>Content:</strong>
+      <%= @blog_post.description %>
+    </p>
+    
+    <% if @blog_post.picture.present? %>
+    <p>
+      <strong>Picture:</strong>
+      <td><%= image_tag @blog_post.picture.url,style:"width:40px;height:40px" %></td>
+    </p>
+    <% end %>
+    
+    <p>
+      <strong>Created by:</strong>
+      <td><%= @blog_post.user.email %></td>
+    </p>
+    
+    <%= link_to 'Edit', edit_blog_post_path(@blog_post), class: 'btn btn-primary' %>
+    <%= link_to 'Back', blog_posts_path , class: 'btn btn-info' %>
+    
+    <br>
+    <br>
+    <h4>Comments</h4>
+    <div class="blogs">
+    <% @blog_post.comments.each do |comment| %>
+      <%= render :partial => 'comments/comment', :locals => {:user => current_user, :comment => comment, :blog_post => @blog_post } %>
+    <% end %>
+    </div>
+    <br>
+    <div>
+      <form action="/comments" method="post" data-remote="true">
+        <div class="row">
+            <div class="form-group col-md-10">
+              <input type="hidden" name="comment[user_id]" value=<%= current_user.id %>>
+              <input type="hidden" name="comment[blog_post_id]" value=<%= @blog_post.id %>>
+              <input class="form-control" type="text" name="comment[content]" placeholder="write comment...">
+            </div>
+            <div class="col-md-2">
+              <input type="submit" class="btn btn-success">
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+ 
+

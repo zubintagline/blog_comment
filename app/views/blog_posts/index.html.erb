@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Blog Posts</h1>
+
+<table>
+  <tbody>
+    <% @blog_posts.each do |blog_post| %>
+      <tr>
+        <td><%= image_tag (blog_post.picture.present? ? blog_post.picture.url : 'no-image-icon-6'),style:"width:120px;height:120px"  %></td>
+        <td>
+          <%= blog_post.description %><br>
+          Potsed By:<%= blog_post.user.email %><br>
+          <%= link_to "#{blog_post.comments.count} Comments", blog_post %><br>
+          <%= link_to 'Edit', edit_blog_post_path(blog_post) %><br>
+          <%= link_to 'Destroy', blog_post, method: :delete, data: { confirm: 'Are you sure?' } %>
+       </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'New Blog Post', new_blog_post_path, class: 'btn btn-primary', style: 'color: #fff' %>
